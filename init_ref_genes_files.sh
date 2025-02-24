@@ -1,0 +1,38 @@
+PATH_START=/bioinfo/users/tmagalha/workspace/Release/script
+REF_GENES_FILE=$PATH_START/refGene.txt
+NB_CHR=24
+SCRIPT_CONVERT=$PATH_START/convert_name_ref_with_header.sh
+CHR_NAMES=$PATH_START/chrNames.txt
+#CHR_NAMES=$PATH_START/names.txt
+SCRIPT_EXON_BY_CHR=$PATH_START/format_exon_by_chr.sh
+SCRIPT_GENES_BY_CHR=$PATH_START/format_ref_gen_by_chr.sh
+SCRIPT_FAMILY_GENES=$PATH_START/format_family_gene.sh
+OUTPUT="/mnt/fhgfs/tmagalha/OUTPUT_MPI/CLUSTERING/RefGene"
+FUNCT_INDEX_FAMILY_GENES=$PATH_START"/main_index_familyGene"
+FINAL_REF_FILE="$OUTPUT/new_refGene_only_NM.txt"
+
+echo "SCRIPT START"
+
+#Clean output
+rm -f $OUTPUT/*
+
+#Convert 
+echo $SCRIPT_CONVERT $CHR_NAMES $REF_GENES_FILE $OUTPUT
+bash $SCRIPT_CONVERT $CHR_NAMES $REF_GENES_FILE $OUTPUT
+
+#Create exon files
+echo $SCRIPT_EXON_BY_CHR $FINAL_REF_FILE $OUTPUT/ch.cut $OUTPUT
+bash $SCRIPT_EXON_BY_CHR $FINAL_REF_FILE $OUTPUT/ch.cut $OUTPUT
+
+#Create genes files by chr
+echo $SCRIPT_GENES_BY_CHR $NB_CHR $FINAL_REF_FILE $OUTPUT $OUTPUT/ch.cut
+bash $SCRIPT_GENES_BY_CHR $NB_CHR $FINAL_REF_FILE $OUTPUT $OUTPUT/ch.cut
+
+#Create family files
+echo $SCRIPT_FAMILY_GENES $FINAL_REF_FILE $FUNCT_INDEX_FAMILY_GENES $OUTPUT 
+bash $SCRIPT_FAMILY_GENES $FINAL_REF_FILE $FUNCT_INDEX_FAMILY_GENES $OUTPUT 
+
+#Clean overhead file
+rm $FINAL_REF_FILE
+
+echo "SCRIPT OVER"

@@ -1,10 +1,5 @@
-This program was developed by
-	Frederic JARLIER
-	Nicolas FEDY
-	Leonor SIROTTI
-	Paul PANGANIBAN
-	Thomas MAGALHAES
-	Nizar HDADECH
+Parallel implementation of set cover problem apply to gene fusion 
+
 
 Requirements:
 	Linux x64
